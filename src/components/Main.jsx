@@ -19,15 +19,6 @@ const Main = () => {
         setSelectedGenre(event.target.value);
     };
 
-    const handleSearch = (event) => {
-        event.preventDefault();
-        const searchValue = event.target.value.toLowerCase();
-        const filteredArray = movies.filter((movie) => {
-            return movie.title.toLowerCase().includes(searchValue);
-        });
-        setFilteredMovies(filteredArray);
-    }
-
     useEffect(() => {
         const filteredArray = movies.filter((movie) => {
             if (selectedGenre === '') {
@@ -52,26 +43,15 @@ const Main = () => {
                 <InputForm
                     setSearch={(e) => setSearch(e.target.value)}
                     search={search}
-                    handleSearch={(e) => handleSearch(e.target.value)}
                 />
-                <div className="row">
-                    <div className="col">
-                        <div className="card">
-                            <ul className="list-group list-group-flush">
-                                <MovieList movies={filteredMovies} />
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <SelectForm
-                            movies={initialMovies}
-                            handleSelect={(e) => handleSelect(e)}
-                            selectedGenre={selectedGenre}
-                        />
-                    </div>
-                </div>
+                <MovieList
+                    movies={filteredMovies}
+                />
+                <SelectForm
+                    movies={initialMovies}
+                    handleSelect={(e) => handleSelect(e)}
+                    selectedGenre={selectedGenre}
+                />
             </div>
         </main>
     )
