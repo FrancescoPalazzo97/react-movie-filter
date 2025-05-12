@@ -2,7 +2,7 @@ import React from 'react'
 
 const MovieList = ({ movies }) => {
     return (
-        <div className="row">
+        <div className="row my-3">
             <div className="col">
                 <div className="card">
                     <ul className="list-group list-group-flush">

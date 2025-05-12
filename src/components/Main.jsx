@@ -3,21 +3,38 @@ import initialMovies from '../assets/movies.js'
 import MovieList from './MovieList.jsx'
 import SelectForm from './SelectForm.jsx'
 import InputForm from './InputForm.jsx'
+import AddNewItemForm from './AddNewItemForm.jsx'
 import { useState, useEffect } from 'react'
 
 const Main = () => {
 
     const [movies, setMovies] = useState(initialMovies)
 
-    const [filteredMovies, setFilteredMovies] = useState(initialMovies)
+    const [filteredMovies, setFilteredMovies] = useState(movies)
 
     const [selectedGenre, setSelectedGenre] = useState('');
 
     const [search, setSearch] = useState('');
 
+    const [newTitle, setNewTitle] = useState('');
+    const [newGenre, setNewGenre] = useState('');
+
     const handleSelect = (event) => {
         setSelectedGenre(event.target.value);
     };
+
+    const addItem = (event) => {
+        event.preventDefault();
+        if (newTitle && newGenre) {
+            const newMovie = {
+                title: newTitle,
+                genre: newGenre
+            };
+            setFilteredMovies([...filteredMovies, newMovie]);
+            setNewTitle('');
+            setNewGenre('');
+        }
+    }
 
     useEffect(() => {
         const filteredArray = movies.filter((movie) => {
@@ -40,6 +57,13 @@ const Main = () => {
     return (
         <main className="py-3">
             <div className="container">
+                <AddNewItemForm
+                    newTitle={newTitle}
+                    setNewTitle={(e) => setNewTitle(e.target.value)}
+                    newGenre={newGenre}
+                    setNewGenre={(e) => setNewGenre(e.target.value)}
+                    addItem={addItem}
+                />
                 <InputForm
                     setSearch={(e) => setSearch(e.target.value)}
                     search={search}
@@ -48,7 +72,7 @@ const Main = () => {
                     movies={filteredMovies}
                 />
                 <SelectForm
-                    movies={initialMovies}
+                    movies={filteredMovies}
                     handleSelect={(e) => handleSelect(e)}
                     selectedGenre={selectedGenre}
                 />
